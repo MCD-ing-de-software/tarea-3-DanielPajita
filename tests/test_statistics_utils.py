@@ -46,6 +46,8 @@ class TestStatisticsUtils(unittest.TestCase):
         # La tolerancia relativa y absoluta permite errores pequeños de punto flotante
         npt.assert_allclose(result, expected, rtol=1e-10, atol=1e-10)
 
+
+    # A1: 1
     def test_moving_average_basic_case(self):
         """Test que verifica que el método moving_average calcula correctamente la media móvil
         de una secuencia numérica para un caso básico.
@@ -57,18 +59,14 @@ class TestStatisticsUtils(unittest.TestCase):
         - Verificar que el resultado tiene la forma (shape) esperada (usar self.assertEqual para comparar tuplas de .shape - comparación simple, unittest es suficiente)
         """
         utils = StatisticsUtils()
-        # Lista de números para el caso básico
         arr = [1, 2, 3, 4]
-        # Ejecutar moving_average con window=2
         result = utils.moving_average(arr, window=2)
-        # Valores esperados: [(1+2)/2, (2+3)/2, (3+4)/2]
         expected = np.array([1.5, 2.5, 3.5])
-        # Comparar arrays numéricos completos con tolerancia
         npt.assert_allclose(result, expected, rtol=1e-7, atol=1e-7)
-        # Verificar que la forma del resultado es la esperada
         self.assertEqual(result.shape, expected.shape)    
-      
 
+      
+    # A1: 2
     def test_moving_average_raises_for_invalid_window(self):
         """Test que verifica que el método moving_average lanza un ValueError cuando
         se proporciona una ventana (window) inválida.
@@ -80,14 +78,13 @@ class TestStatisticsUtils(unittest.TestCase):
         """
         utils = StatisticsUtils()
         arr = [1, 2, 3]
-        # Caso 1: window = 0 (no positivo)
         with self.assertRaises(ValueError):
             utils.moving_average(arr, window=0)
-        # Caso 2: window mayor que la longitud del array
         with self.assertRaises(ValueError):
             utils.moving_average(arr, window=5)
 
 
+    # A1: 3
     def test_moving_average_only_accepts_1d_sequences(self):
         """Test que verifica que el método moving_average lanza un ValueError cuando
         se llama con una secuencia multidimensional.
@@ -100,8 +97,9 @@ class TestStatisticsUtils(unittest.TestCase):
         arr_2d = [[1, 2], [3, 4]]
         with self.assertRaises(ValueError):
             utils.moving_average(arr_2d, window=2)
-        
 
+        
+    # A1: 4
     def test_zscore_has_mean_zero_and_unit_std(self):
         """Test que verifica que el método zscore calcula correctamente los z-scores
         de una secuencia numérica, comprobando que el resultado tiene media cero y
@@ -120,8 +118,9 @@ class TestStatisticsUtils(unittest.TestCase):
         std_result = result.std()
         self.assertAlmostEqual(mean_result, 0.0, places=7)
         self.assertAlmostEqual(std_result, 1.0, places=7)
-        
 
+        
+    # A1: 5
     def test_zscore_raises_for_zero_std(self):
         """Test que verifica que el método zscore lanza un ValueError cuando
         se llama con una secuencia que tiene desviación estándar cero
@@ -135,8 +134,9 @@ class TestStatisticsUtils(unittest.TestCase):
         arr = [5, 5, 5]
         with self.assertRaises(ValueError):
             utils.zscore(arr)
-        
 
+        
+    # A1: 6
     def test_min_max_scale_maps_to_zero_one_range(self):
         """Test que verifica que el método min_max_scale escala correctamente una secuencia
         numérica al rango [0, 1], donde el valor mínimo se mapea a 0 y el máximo a 1.
@@ -155,8 +155,9 @@ class TestStatisticsUtils(unittest.TestCase):
         self.assertAlmostEqual(result.min(), 0.0, places=7)
         self.assertAlmostEqual(result.max(), 1.0, places=7)
         npt.assert_allclose(result, expected, rtol=1e-7, atol=1e-7)
+        
 
-
+    # A1: 7
     def test_min_max_scale_raises_for_constant_values(self):
         """Test que verifica que el método min_max_scale lanza un ValueError cuando
         se llama con una secuencia donde todos los valores son iguales (no hay variación).
